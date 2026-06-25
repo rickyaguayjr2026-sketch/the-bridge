@@ -67,4 +67,5 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("net.zetetic:android-database-sqlcipher:4.5.4")
     implementation("androidx.sqlite:sqlite-ktx:2.3.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.0")
 }
