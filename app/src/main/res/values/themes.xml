@@ -1,0 +1,3 @@
+<resources>
+    <style name="Theme.TheBridge" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
