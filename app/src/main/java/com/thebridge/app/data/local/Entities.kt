@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "user_profile")
 data class UserProfileEntity(
     @PrimaryKey val id: Long = 1,
-    val selectedMode: UserMode,
+    val selectedMode: UserMode? = null,
     val covenantAcceptedAtEpochMillis: Long,
     val covenantCopyVersion: Int,
     val dataControlAcknowledged: Boolean,
