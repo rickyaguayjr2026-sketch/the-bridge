@@ -1,5 +1,7 @@
 # The Bridge
 
+Christian/spiritual app that acts as a bridge for the user, a bridge to your local church, build your sanctuary with everything saved on device locally.
+
 The Bridge is a Kotlin + Jetpack Compose Android app with an offline-first architecture.
 
 ## Current foundation
