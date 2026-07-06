@@ -23,8 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.thebridge.app.data.local.UserProfileEntity
 import com.thebridge.app.onboarding.AppScreen
+import com.thebridge.app.onboarding.ModeSelectionUpdater
 import com.thebridge.app.onboarding.OnboardingRouter
 import com.thebridge.app.ui.onboarding.CovenantIntro
+import com.thebridge.app.ui.onboarding.ModeSelector
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -65,7 +67,18 @@ private fun BridgeRoot() {
             }
         )
 
-        AppScreen.MODE_SELECT -> PlaceholderScreen("Mode Selector — Layer 2, coming next")
+        AppScreen.MODE_SELECT -> ModeSelector(
+            currentMode = null,
+            onModeSelected = { mode ->
+                scope.launch {
+                    val current = dao.getProfile()
+                    if (current != null) {
+                        dao.upsertProfile(ModeSelectionUpdater.apply(current, mode))
+                    }
+                    screen = AppScreen.HOME
+                }
+            }
+        )
 
         AppScreen.HOME -> PlaceholderScreen("Home — Layer 3, coming next")
     }
