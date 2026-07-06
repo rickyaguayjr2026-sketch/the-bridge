@@ -2,13 +2,13 @@ package com.thebridge.app.ui.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -56,32 +57,35 @@ fun ModeSelector(currentMode: UserMode? = null, onModeSelected: (UserMode) -> Un
     var selected by remember { mutableStateOf(currentMode) }
 
     Surface(modifier = Modifier.fillMaxSize(), color = Charcoal) {
-        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-            Text(
-                text = "Choose Your Path",
-                color = Gold,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            MODE_COPY.forEach { copy ->
-                ModeCard(
-                    title = copy.title,
-                    description = copy.description,
-                    isSelected = selected == copy.mode,
-                    onClick = { selected = copy.mode },
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+                Text(
+                    text = "Choose Your Path",
+                    color = Gold,
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.Bold,
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+                Spacer(modifier = Modifier.height(24.dp))
 
-            Spacer(modifier = Modifier.weight(1f))
+                MODE_COPY.forEach { copy ->
+                    ModeCard(
+                        title = copy.title,
+                        description = copy.description,
+                        isSelected = selected == copy.mode,
+                        onClick = { selected = copy.mode },
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
 
             Button(
                 onClick = { selected?.let(onModeSelected) },
                 enabled = selected != null,
                 colors = ButtonDefaults.buttonColors(containerColor = Gold, contentColor = Charcoal),
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(24.dp),
             ) {
                 Text(text = "Confirm", fontWeight = FontWeight.Bold)
             }
