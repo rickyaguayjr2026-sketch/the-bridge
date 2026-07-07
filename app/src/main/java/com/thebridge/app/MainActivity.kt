@@ -28,7 +28,9 @@ import com.thebridge.app.data.local.UserProfileEntity
 import com.thebridge.app.onboarding.AppScreen
 import com.thebridge.app.onboarding.ModeSelectionUpdater
 import com.thebridge.app.onboarding.OnboardingRouter
+import com.thebridge.app.ui.onboarding.AvatarSelection
 import com.thebridge.app.ui.onboarding.CovenantIntro
+import com.thebridge.app.ui.onboarding.HomePorchIntro
 import com.thebridge.app.ui.onboarding.ModeSelector
 import kotlinx.coroutines.launch
 
@@ -40,7 +42,9 @@ class MainActivity : ComponentActivity() {
 }
 
 private const val ROUTE_COVENANT = "covenant"
+private const val ROUTE_HOME_PORCH_INTRO = "home_porch_intro"
 private const val ROUTE_MODE_SELECT = "mode_select"
+private const val ROUTE_AVATAR_SELECTION = "avatar_selection"
 private const val ROUTE_HOME = "home"
 
 // AppScreen.LOADING is never returned by OnboardingRouter.resolve(); this branch
@@ -85,9 +89,19 @@ private fun BridgeRoot() {
                                 dataControlAcknowledged = true,
                             )
                         )
-                        navController.navigate(ROUTE_MODE_SELECT) {
+                        navController.navigate(ROUTE_HOME_PORCH_INTRO) {
                             popUpTo(ROUTE_COVENANT) { inclusive = true }
                         }
+                    }
+                }
+            )
+        }
+
+        composable(ROUTE_HOME_PORCH_INTRO) {
+            HomePorchIntro(
+                onContinue = {
+                    navController.navigate(ROUTE_MODE_SELECT) {
+                        popUpTo(ROUTE_HOME_PORCH_INTRO) { inclusive = true }
                     }
                 }
             )
@@ -102,7 +116,7 @@ private fun BridgeRoot() {
                         if (current != null) {
                             dao.upsertProfile(ModeSelectionUpdater.apply(current, mode))
                         }
-                        navController.navigate(ROUTE_HOME) {
+                        navController.navigate(ROUTE_AVATAR_SELECTION) {
                             popUpTo(ROUTE_MODE_SELECT) { inclusive = true }
                         }
                     }
@@ -110,8 +124,21 @@ private fun BridgeRoot() {
             )
         }
 
+        composable(ROUTE_AVATAR_SELECTION) {
+            AvatarSelection(
+                currentAvatar = null,
+                onAvatarSelected = {
+                    // Avatar choice is not yet persisted — no schema field exists for it
+                    // yet and this contract didn't call for adding one. See PR notes.
+                    navController.navigate(ROUTE_HOME) {
+                        popUpTo(ROUTE_AVATAR_SELECTION) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(ROUTE_HOME) {
-            PlaceholderScreen("Home — Layer 3, coming next")
+            PlaceholderScreen("Home — Layer 4 (porch-to-house transition), coming next")
         }
     }
 }
