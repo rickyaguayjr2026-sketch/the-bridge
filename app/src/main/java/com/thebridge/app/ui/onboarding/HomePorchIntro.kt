@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
@@ -25,17 +24,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
-private val DuskBackground = Color(0xFF3D362E)
-private val PorchGlow = Color(0xFFE8C79A)
+private val Charcoal = Color(0xFF0A0500)
+private val Gold = Color(0xFFD4AF37)
 private val Parchment = Color(0xFFF5E8C7)
+private val CabinBody = Color(0xFF1A120B)
 
 private val NARRATION_LINES = listOf(
     "You're here.",
@@ -46,6 +49,11 @@ private val NARRATION_LINES = listOf(
 
 private const val LINE_DISPLAY_MS = 3_500L
 
+/**
+ * WordForge has no visual presence on this screen — narration only, voice
+ * role (silent for now; no audio/TTS pipeline is wired up yet, and adding
+ * one is a separate, not-yet-scoped decision).
+ */
 @Composable
 fun HomePorchIntro(onContinue: () -> Unit) {
     var lineIndex by remember { mutableIntStateOf(0) }
@@ -59,13 +67,16 @@ fun HomePorchIntro(onContinue: () -> Unit) {
         narrationDone = true
     }
 
-    Surface(modifier = Modifier.fillMaxSize(), color = DuskBackground) {
+    Surface(modifier = Modifier.fillMaxSize(), color = Charcoal) {
         Column(
             modifier = Modifier.fillMaxSize().padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            PorchLightGlow()
+            // Placeholder geometric scene — stands in for real "Bible Project
+            // style" illustrated artwork of a house/cabin exterior, porch
+            // light lit, which still needs to be sourced/generated.
+            PorchScene()
 
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -84,7 +95,7 @@ fun HomePorchIntro(onContinue: () -> Unit) {
             AnimatedVisibility(visible = narrationDone, enter = fadeIn()) {
                 Button(
                     onClick = onContinue,
-                    colors = ButtonDefaults.buttonColors(containerColor = PorchGlow, contentColor = DuskBackground),
+                    colors = ButtonDefaults.buttonColors(containerColor = Gold, contentColor = Charcoal),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Text(text = "Continue", fontWeight = FontWeight.Bold)
@@ -95,11 +106,41 @@ fun HomePorchIntro(onContinue: () -> Unit) {
 }
 
 @Composable
-private fun PorchLightGlow() {
-    Canvas(modifier = Modifier.size(140.dp)) {
-        val glowBrush = Brush.radialGradient(
-            colors = listOf(PorchGlow.copy(alpha = 0.9f), PorchGlow.copy(alpha = 0.15f), Color.Transparent),
+private fun PorchScene() {
+    Canvas(modifier = Modifier.fillMaxWidth().height(220.dp)) {
+        val bodyWidth = size.width * 0.55f
+        val bodyHeight = size.height * 0.45f
+        val bodyLeft = (size.width - bodyWidth) / 2f
+        val bodyTop = size.height * 0.5f
+
+        val roofOverhang = 14.dp.toPx()
+        val roofPath = Path().apply {
+            moveTo(bodyLeft - roofOverhang, bodyTop)
+            lineTo(bodyLeft + bodyWidth / 2f, bodyTop - size.height * 0.22f)
+            lineTo(bodyLeft + bodyWidth + roofOverhang, bodyTop)
+            close()
+        }
+        drawPath(path = roofPath, color = Gold.copy(alpha = 0.85f))
+
+        drawRect(
+            color = CabinBody,
+            topLeft = Offset(bodyLeft, bodyTop),
+            size = Size(bodyWidth, bodyHeight),
         )
-        drawCircle(brush = glowBrush)
+        drawRect(
+            color = Gold.copy(alpha = 0.6f),
+            topLeft = Offset(bodyLeft, bodyTop),
+            size = Size(bodyWidth, bodyHeight),
+            style = Stroke(width = 2.dp.toPx()),
+        )
+
+        // Lit porch light beside the door — a warm point of light, not a
+        // radiating glow (that read as WordForge's presence, which this
+        // screen no longer has).
+        drawCircle(
+            color = Gold,
+            radius = 5.dp.toPx(),
+            center = Offset(bodyLeft + bodyWidth * 0.82f, bodyTop + bodyHeight * 0.55f),
+        )
     }
 }
