@@ -44,15 +44,19 @@ private val CardBackground = Color(0xFF1A120B)
  * schema field for a chosen avatar on UserProfileEntity today, and this
  * contract didn't call for adding one, so selection here is in-memory only
  * until that's decided.
+ *
+ * Roster per the 2026-07-09 revision: Rahab and Ruth replace Samaritan
+ * Woman and Esther. "Mary" here is always Jesus's mother, disambiguated
+ * from Mary Magdalene.
  */
 enum class BiblicalAvatar {
-    MARY, SAMARITAN_WOMAN, ESTHER, MARY_MAGDALENE, DAVID, PAUL, PETER, MOSES
+    MARY, RAHAB, RUTH, MARY_MAGDALENE, DAVID, PAUL, PETER, MOSES
 }
 
 private val AVATAR_NAMES = mapOf(
-    BiblicalAvatar.MARY to "Mary",
-    BiblicalAvatar.SAMARITAN_WOMAN to "Samaritan Woman",
-    BiblicalAvatar.ESTHER to "Esther",
+    BiblicalAvatar.MARY to "Mary (mother of Jesus)",
+    BiblicalAvatar.RAHAB to "Rahab",
+    BiblicalAvatar.RUTH to "Ruth",
     BiblicalAvatar.MARY_MAGDALENE to "Mary Magdalene",
     BiblicalAvatar.DAVID to "David",
     BiblicalAvatar.PAUL to "Paul",
@@ -60,9 +64,14 @@ private val AVATAR_NAMES = mapOf(
     BiblicalAvatar.MOSES to "Moses",
 )
 
-// Only avatars with finished, background-consistent artwork get a portrait
-// here — the rest fall back to a text-only card until their art is ready.
 private val AVATAR_PORTRAITS = mapOf(
+    BiblicalAvatar.MARY to R.drawable.avatar_mary,
+    BiblicalAvatar.RAHAB to R.drawable.avatar_rahab,
+    BiblicalAvatar.RUTH to R.drawable.avatar_ruth,
+    BiblicalAvatar.MARY_MAGDALENE to R.drawable.avatar_mary_magdalene,
+    BiblicalAvatar.DAVID to R.drawable.avatar_david,
+    BiblicalAvatar.PAUL to R.drawable.avatar_paul,
+    BiblicalAvatar.PETER to R.drawable.avatar_peter,
     BiblicalAvatar.MOSES to R.drawable.avatar_moses,
 )
 
