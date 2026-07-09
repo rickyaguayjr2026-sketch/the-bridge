@@ -54,3 +54,22 @@ Sharing architecture (user sharing WordForge data with pastor/mentor/family), Fi
   1. The actual narration copy and visual direction for the Home/Porch Intro screen — referenced as already given, not actually supplied yet.
   2. Whether to introduce real `androidx.navigation.compose` (proper back-stack) or extend the existing `AppScreen` enum + `when`-block pattern used for Layers 1–2.
 - Screens/features not yet touched: Sanctuary, Meditation Room, Worship Center, My Walk, Sticky Note Ministries, Settings, local church integration, WordForge's learning/bird's-eye-view logic, the porch-to-house transition (flagged as its own future layer).
+
+## App Size & Data Cost Ledger
+
+Purpose: track what each feature actually costs — in bundled APK size, and separately, in runtime network data usage — so scope decisions are made against real numbers, not guesses.
+
+**Current baseline:** ~38MB (as of pre-Layer 4).
+
+**Bundled size adds (permanent, part of the install):**
+| Feature | Est. size add | Status |
+|---|---|---|
+| 8 avatar portraits (already wired) | TBD — confirm actual size | Built |
+| Piper TTS (2 voices + runtime) | ~150-180MB estimated, unverified | Deferred — fast-follow after Layer 4 |
+
+**Data-cost, not size-cost (online-only features, don't touch offline core):**
+| Feature | Cost type | Notes |
+|---|---|---|
+| YouTube deep-link / curated content | User's mobile/wifi data, not APK size | Requires connection — explicitly an online-only bonus, not part of offline-first core. Does not affect install size. |
+
+**Rule going forward:** any new feature contract that adds bundled assets (audio, video, art, models) must include an honest size estimate before implementation, verified where possible, flagged as unverified where not — same discipline already applied to the Piper research. Any feature requiring a live network connection must be explicitly marked as **online-only, non-core**, since it sits outside the offline-first guarantee.
