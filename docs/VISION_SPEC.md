@@ -64,7 +64,7 @@ Purpose: track what each feature actually costs — in bundled APK size, and sep
 **Bundled size adds (permanent, part of the install):**
 | Feature | Est. size add | Status |
 |---|---|---|
-| 8 avatar portraits (already wired) | TBD — confirm actual size | Built |
+| 8 avatar portraits (already wired) | 2.6MB confirmed (`du -sh` on the actual files) | Built |
 | Piper TTS (2 voices + runtime) | ~150-180MB estimated, unverified | Deferred — fast-follow after Layer 4 |
 
 **Data-cost, not size-cost (online-only features, don't touch offline core):**
