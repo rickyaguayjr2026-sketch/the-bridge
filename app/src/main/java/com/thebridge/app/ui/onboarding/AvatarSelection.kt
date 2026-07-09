@@ -64,7 +64,9 @@ private val AVATAR_NAMES = mapOf(
     BiblicalAvatar.MOSES to "Moses",
 )
 
-private val AVATAR_PORTRAITS = mapOf(
+// Not private: reused by AvatarWalkthrough.kt to show the same portrait
+// during the walkthrough stops that follow selection.
+val AVATAR_PORTRAITS = mapOf(
     BiblicalAvatar.MARY to R.drawable.avatar_mary,
     BiblicalAvatar.RAHAB to R.drawable.avatar_rahab,
     BiblicalAvatar.RUTH to R.drawable.avatar_ruth,

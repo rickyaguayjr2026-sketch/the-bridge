@@ -21,17 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.thebridge.app.data.local.UserProfileEntity
 import com.thebridge.app.onboarding.AppScreen
 import com.thebridge.app.onboarding.ModeSelectionUpdater
 import com.thebridge.app.onboarding.OnboardingRouter
 import com.thebridge.app.ui.onboarding.AvatarSelection
+import com.thebridge.app.ui.onboarding.AvatarWalkthroughStop
+import com.thebridge.app.ui.onboarding.BiblicalAvatar
 import com.thebridge.app.ui.onboarding.CovenantIntro
 import com.thebridge.app.ui.onboarding.HomePorchIntro
 import com.thebridge.app.ui.onboarding.ModeSelector
+import com.thebridge.app.ui.onboarding.WalkthroughStop
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -45,7 +50,15 @@ private const val ROUTE_COVENANT = "covenant"
 private const val ROUTE_HOME_PORCH_INTRO = "home_porch_intro"
 private const val ROUTE_MODE_SELECT = "mode_select"
 private const val ROUTE_AVATAR_SELECTION = "avatar_selection"
+private const val ARG_AVATAR = "avatar"
+private const val ROUTE_WALKTHROUGH_STICKY_NOTES = "walkthrough_sticky_notes/{$ARG_AVATAR}"
+private const val ROUTE_WALKTHROUGH_WORSHIP_CENTER = "walkthrough_worship_center/{$ARG_AVATAR}"
+private const val ROUTE_WALKTHROUGH_CLOSING = "walkthrough_closing/{$ARG_AVATAR}"
 private const val ROUTE_HOME = "home"
+
+private fun walkthroughStickyNotesRoute(avatar: BiblicalAvatar) = "walkthrough_sticky_notes/${avatar.name}"
+private fun walkthroughWorshipCenterRoute(avatar: BiblicalAvatar) = "walkthrough_worship_center/${avatar.name}"
+private fun walkthroughClosingRoute(avatar: BiblicalAvatar) = "walkthrough_closing/${avatar.name}"
 
 // AppScreen.LOADING is never returned by OnboardingRouter.resolve(); this branch
 // exists only so the `when` stays exhaustive against the shared enum.
@@ -127,18 +140,69 @@ private fun BridgeRoot() {
         composable(ROUTE_AVATAR_SELECTION) {
             AvatarSelection(
                 currentAvatar = null,
-                onAvatarSelected = {
+                onAvatarSelected = { avatar ->
                     // Avatar choice is not yet persisted — no schema field exists for it
                     // yet and this contract didn't call for adding one. See PR notes.
-                    navController.navigate(ROUTE_HOME) {
+                    navController.navigate(walkthroughStickyNotesRoute(avatar)) {
                         popUpTo(ROUTE_AVATAR_SELECTION) { inclusive = true }
                     }
                 }
             )
         }
 
+        composable(
+            route = ROUTE_WALKTHROUGH_STICKY_NOTES,
+            arguments = listOf(navArgument(ARG_AVATAR) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val avatar = BiblicalAvatar.valueOf(backStackEntry.arguments!!.getString(ARG_AVATAR)!!)
+            AvatarWalkthroughStop(
+                avatar = avatar,
+                stop = WalkthroughStop.STICKY_NOTES,
+                actionLabel = "Next",
+                onAction = {
+                    navController.navigate(walkthroughWorshipCenterRoute(avatar)) {
+                        popUpTo(ROUTE_WALKTHROUGH_STICKY_NOTES) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = ROUTE_WALKTHROUGH_WORSHIP_CENTER,
+            arguments = listOf(navArgument(ARG_AVATAR) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val avatar = BiblicalAvatar.valueOf(backStackEntry.arguments!!.getString(ARG_AVATAR)!!)
+            AvatarWalkthroughStop(
+                avatar = avatar,
+                stop = WalkthroughStop.WORSHIP_CENTER,
+                actionLabel = "Next",
+                onAction = {
+                    navController.navigate(walkthroughClosingRoute(avatar)) {
+                        popUpTo(ROUTE_WALKTHROUGH_WORSHIP_CENTER) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = ROUTE_WALKTHROUGH_CLOSING,
+            arguments = listOf(navArgument(ARG_AVATAR) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val avatar = BiblicalAvatar.valueOf(backStackEntry.arguments!!.getString(ARG_AVATAR)!!)
+            AvatarWalkthroughStop(
+                avatar = avatar,
+                stop = WalkthroughStop.CLOSING,
+                actionLabel = "Enter",
+                onAction = {
+                    navController.navigate(ROUTE_HOME) {
+                        popUpTo(ROUTE_WALKTHROUGH_CLOSING) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(ROUTE_HOME) {
-            PlaceholderScreen("Home — Layer 4 (porch-to-house transition), coming next")
+            PlaceholderScreen("Home — porch-to-house transition, coming next")
         }
     }
 }
