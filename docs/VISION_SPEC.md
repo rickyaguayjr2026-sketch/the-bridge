@@ -16,7 +16,7 @@ Not content-library size — **depth of relationship with the user over time.** 
 - **Covenant Intro** — cinematic consent mechanism. Must explicitly state: this app learns you / lives on your device / you control it / can be wiped anytime. **Built** (see Current Build Status).
 - **Sticky Note Ministries** — async batch sync only, roughly weekly, no real-time backend.
 - **Three onboarding modes:** Follower (new/searching, gentle "milk" tone), Caregiver (isolated/caring-for-others, soft/bridging tone), Abide (seasoned, direct "meat/iron" tone). **Built** (see Current Build Status).
-- **Local church integration** — extends a local church's influence to a user regardless of their geography or point in their walk. **OPEN:** not designed yet — needs its own spec (how a church is represented, what it can push to users, sync model, privacy/consent). Biggest undesigned piece in the whole product.
+- **Local church integration** — extends a local church's influence to a user regardless of their geography or point in their walk. **Substantially designed as of 2026-07-09** (Layer 5 addendum): two cases — physical/local church (unlocks a small-group anonymous sharing circle) vs. distant/media ministry (triggers a one-time, user-initiated, anonymous email outreach to the church's pastoral contact — no OAuth, no AI verification, explicit preview-and-confirm before sending, delivered via a stateless transactional email service so the message carries no user-identifying address and no reply path). Still open: how per-church contact emails get sourced/verified, and whether an outreach threshold exists.
 
 ## Biblical Avatars system
 Each avatar is a biblical figure who guides onboarding and appears contextually in rooms giving in-character encouragement.
