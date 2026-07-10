@@ -10,7 +10,7 @@ Not content-library size — **depth of relationship with the user over time.** 
 
 ## Core architecture (locked)
 - **Mode 1 "The Word"** — deterministic, pre-approved scripture/content, no AI, offline, locked progressions.
-- **Mode 2 "The Conversation"** — sandboxed, explicit disclaimer on entry, human approval required before anything writes back to the engine, never touches Mode 1.
+- **Mode 2 "The Conversation" — SUPERSEDED 2026-07-09.** No in-app AI conversation pipeline is built. Replaced by "Ask Further": when pre-approved content doesn't satisfy a user's need, the app populates an editable template (scripture refs, category, context) and hands off via the Android share sheet to whatever external LLM app the user already has. See the Layer 5 contract for full detail.
 - **WordForge** — a classifier/filter, never generative. Matches input against a category, returns a fixed/curated response. Response format: *validation sentence → "Have you brought this to the Lord yet?" → short speakable prayer.* Expanded vision: tracks habits/patterns over time from the event log, surfaces weak areas, identifies strongholds — still classify/score-only, never generates new spiritual content.
 - **Local Room DB, SQLCipher-encrypted.** Device-local is the source of truth; any future sync is sync-only, never source of truth.
 - **Covenant Intro** — cinematic consent mechanism. Must explicitly state: this app learns you / lives on your device / you control it / can be wiped anytime. **Built** (see Current Build Status).
@@ -21,9 +21,9 @@ Not content-library size — **depth of relationship with the user over time.** 
 ## Biblical Avatars system
 Each avatar is a biblical figure who guides onboarding and appears contextually in rooms giving in-character encouragement.
 - Deterministic/pre-scripted — no live AI generation. Same speech format as WordForge (validation → "have you brought this to the Lord yet" → prayer).
-- **Roster (gender-balanced 4/4):** Women — Mary, Samaritan Woman, Esther, Mary Magdalene. Men — David, Paul, Peter, Moses.
-- Art direction: "Bible Project animation style, clean hand-drawn 2D illustration, warm earthy color palette... soft lighting, emotional and reverent mood." Each avatar has a symbolic element (Mary: dove/lily; Samaritan Woman: water jar; David: harp/sling; Paul: scroll/broken chains; Peter: keys/fishing net; Moses: staff/burning bush; Esther and Mary Magdalene still need art prompts written).
-- User picks/is assigned a primary avatar; can switch anytime in Settings.
+- **Final roster (2026-07-09):** Women — Mary (mother of Jesus, always disambiguated from Magdalene), Rahab, Ruth, Mary Magdalene. Men — David, Paul, Peter, Moses. (Samaritan Woman and Esther, from an earlier draft, are permanently out.)
+- **Built:** all 8 have real portrait art (Grok Imagine-generated, clean white backgrounds, consistent style), wired into Avatar Selection (grid + tap-to-highlight + Confirm — a swipe-carousel redesign was proposed then permanently dropped) and the Avatar Walkthrough (Sticky Note Ministries stub → Worship Center stub → closing beat → Home).
+- User picks a primary avatar at onboarding; switching in Settings is planned but not built.
 - **OPEN:** is avatar choice independent of onboarding mode, or does each mode map to a subset of avatars? Not resolved — don't assume either answer.
 
 ## Settings screen
@@ -39,27 +39,27 @@ Will be extensive, not a simple list: live Bible Project-style artwork, instruct
 Deep charcoal `#0A0500`, warm gold `#D4AF37`, fire red/orange accents, "Bible Project" hand-drawn illustration style. Already in use in the built Covenant Intro and Mode Selector screens.
 
 ## Gate progressions / stronghold taxonomy — OPEN, explicitly not to be invented by AI
-Multiple incompatible taxonomies have surfaced across old source material (Rest/Peace/Forgiveness/Joy/Night Watch/Stillness; Identity/Fear; Marriage/Anger/Guilt/Fear) and must be reconciled with Ricky, not guessed at. Real gate progressions require pastoral/Scripture research (Romans road, Ephesians 6, Battlefield of the Mind, strongholds literature) that Ricky provides.
+Multiple incompatible taxonomies have surfaced across old source material (Rest/Peace/Forgiveness/Joy/Night Watch/Stillness; Identity/Fear; Marriage/Anger/Guilt/Fear) and must be reconciled with Ricky, not guessed at. Real gate progressions require pastoral/Scripture research (Romans road, Ephesians 6, Battlefield of the Mind, strongholds literature) that Ricky provides. **Lead (2026-07-09):** Pastor Steve Cowan's book *Strongholds: Walking in Freedom* directly influenced this app — likely a primary source for this taxonomy, not yet formally confirmed as such.
 
-## Pastoral layer — OPEN, tentative
-Shepherd Mode (anonymous aggregate congregation dashboard for a pastor) and Shepherd of the Shepherd Mode (pastor's private AI-governed workspace) — from one early source only, not corroborated elsewhere. May be the mechanism behind local church integration. Needs confirmation it's still wanted before any design work happens on it.
+## Pastoral layer — CONFIRMED wanted, deliberately last in build order
+Shepherd Mode (anonymous aggregate congregation dashboard for a pastor) is confirmed real as of 2026-07-09 — no longer tentative. It needs its own separate auth process (pastor-level access, distinct from regular users) and is bundled together with Local Church Integration as one combined effort — deliberately one of the last major pieces to build. Shepherd of the Shepherd Mode (pastor's private AI-governed workspace) has not been re-confirmed alongside this — treat as still unconfirmed until raised again.
 
 ## Explicitly deferred (parked, don't build unless opened)
 Sharing architecture (user sharing WordForge data with pastor/mentor/family), Firebase schema detail, monetization specifics, MetaMode as a formal skill file.
 
-## Current build status (as of this writing)
-- **Layer 1 — Covenant Intro:** built and CI-verified. Real cinematic video (Grok Imagine-generated) with muxed licensed audio, explicit tap-to-accept consent (not a passive timer), persisted to an encrypted local profile.
-- **Layer 2 — Mode Selector:** built and CI-verified. Tap-to-highlight + Confirm pattern, re-entrant (built to be reusable from Settings for mode-switching later, not a one-time gate), original screen copy for Follower/Caregiver/Abide.
-- **Layer 3 — in contract-check, not yet built.** Adds a Home/Porch Intro screen (between Covenant Intro and Mode Selector) and an Avatar Selection screen (after Mode Selector). Two things are blocking that contract from moving to implementation:
-  1. The actual narration copy and visual direction for the Home/Porch Intro screen — referenced as already given, not actually supplied yet.
-  2. Whether to introduce real `androidx.navigation.compose` (proper back-stack) or extend the existing `AppScreen` enum + `when`-block pattern used for Layers 1–2.
-- Screens/features not yet touched: Sanctuary, Meditation Room, Worship Center, My Walk, Sticky Note Ministries, Settings, local church integration, WordForge's learning/bird's-eye-view logic, the porch-to-house transition (flagged as its own future layer).
+## Current build status (updated 2026-07-09)
+- **Layer 1 — Covenant Intro:** built, CI-verified, Ricky-approved on-device. Real cinematic video (Grok Imagine-generated) with muxed licensed audio, explicit tap-to-accept consent, persisted to an encrypted local profile.
+- **Layer 2 — Mode Selector:** built, CI-verified, approved. Tap-to-highlight + Confirm, re-entrant for future Settings mode-switching, original copy for Follower/Caregiver/Abide.
+- **Layer 3 — Home/Porch Intro + Avatar Selection:** built, CI-verified, approved. Real navigation runs on `androidx.navigation.compose` (migrated off the earlier enum+when pattern). Home/Porch Intro has real porch-scene art + paced narration; Avatar Selection is grid + tap-to-highlight + Confirm with all 8 real avatar portraits (a swipe-carousel redesign was proposed, then permanently dropped).
+- **Layer 4 — Avatar Walkthrough:** built, CI-verified, approved. 3 stub-screen stops (Sticky Note Ministries, Worship Center, closing beat → Home) with locked in-character narration per avatar. Text-only — Piper TTS audio deliberately deferred (see ledger below). The generic narration for the two stub stops is intentional, not a gap — those features have no real spec yet; a real content pass is logged as future work once they do.
+- **Layer 5 — Follower Mode contract: locked, but re-sequenced.** Full contract covers sync architecture (bank/wallet model), content doctrine boundary (Category A/B classifier + 7-source approved list), the 30-day Bible plan, growth-detection instrumentation, Stones of Remembrance, the 13-category content library, and "Ask Further" (the share-sheet mechanism that supersedes Mode 2's original in-app-AI-chat vision). **Actual first build, per Ricky's 2026-07-09 correction:** not the sync layer — a real (non-stub) first entry screen that captures genuine timestamped interaction data, so growth-detection thresholds get calibrated from real usage rather than invented numbers. Spec for that screen incoming from Ricky directly; standing by.
+- Screens/features not yet touched: Sanctuary, Meditation Room, real Worship Center/Sticky Note Ministries (currently stubs), My Walk, Settings, local church integration (bundled with Shepherd Mode), WordForge's learning/bird's-eye-view logic, the porch-to-house transition into a real Home shell.
 
 ## App Size & Data Cost Ledger
 
 Purpose: track what each feature actually costs — in bundled APK size, and separately, in runtime network data usage — so scope decisions are made against real numbers, not guesses.
 
-**Current baseline:** ~38MB (as of pre-Layer 4).
+**Current baseline:** ~38MB (through Layer 4, before Piper TTS or any Layer 5 additions).
 
 **Bundled size adds (permanent, part of the install):**
 | Feature | Est. size add | Status |
