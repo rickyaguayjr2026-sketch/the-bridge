@@ -48,12 +48,42 @@ Shepherd Mode (anonymous aggregate congregation dashboard for a pastor) is confi
 Sharing architecture (user sharing WordForge data with pastor/mentor/family), Firebase schema detail, monetization specifics, MetaMode as a formal skill file.
 
 ## Current build status (updated 2026-07-09)
-- **Layer 1 — Covenant Intro:** built, CI-verified, Ricky-approved on-device. Real cinematic video (Grok Imagine-generated) with muxed licensed audio, explicit tap-to-accept consent, persisted to an encrypted local profile.
-- **Layer 2 — Mode Selector:** built, CI-verified, approved. Tap-to-highlight + Confirm, re-entrant for future Settings mode-switching, original copy for Follower/Caregiver/Abide.
-- **Layer 3 — Home/Porch Intro + Avatar Selection:** built, CI-verified, approved. Real navigation runs on `androidx.navigation.compose` (migrated off the earlier enum+when pattern). Home/Porch Intro has real porch-scene art + paced narration; Avatar Selection is grid + tap-to-highlight + Confirm with all 8 real avatar portraits (a swipe-carousel redesign was proposed, then permanently dropped).
-- **Layer 4 — Avatar Walkthrough:** built, CI-verified, approved. 3 stub-screen stops (Sticky Note Ministries, Worship Center, closing beat → Home) with locked in-character narration per avatar. Text-only — Piper TTS audio deliberately deferred (see ledger below). The generic narration for the two stub stops is intentional, not a gap — those features have no real spec yet; a real content pass is logged as future work once they do.
-- **Layer 5 — Follower Mode contract: locked, but re-sequenced.** Full contract covers sync architecture (bank/wallet model), content doctrine boundary (Category A/B classifier + 7-source approved list), the 30-day Bible plan, growth-detection instrumentation, Stones of Remembrance, the 13-category content library, and "Ask Further" (the share-sheet mechanism that supersedes Mode 2's original in-app-AI-chat vision). **Actual first build, per Ricky's 2026-07-09 correction:** not the sync layer — a real (non-stub) first entry screen that captures genuine timestamped interaction data, so growth-detection thresholds get calibrated from real usage rather than invented numbers. Spec for that screen incoming from Ricky directly; standing by.
-- Screens/features not yet touched: Sanctuary, Meditation Room, real Worship Center/Sticky Note Ministries (currently stubs), My Walk, Settings, local church integration (bundled with Shepherd Mode), WordForge's learning/bird's-eye-view logic, the porch-to-house transition into a real Home shell.
+
+**✅ Locked AND built (in code, CI-verified, Ricky-approved on-device):**
+- Layer 1 — Covenant Intro: real cinematic video (Grok Imagine) + muxed licensed audio, explicit tap-to-accept consent, persisted to encrypted local profile.
+- Layer 2 — Mode Selector: tap-to-highlight + Confirm, re-entrant for future Settings mode-switching, original copy for Follower/Caregiver/Abide.
+- Layer 3 — Home/Porch Intro + Avatar Selection: real navigation on `androidx.navigation.compose`, real porch-scene art, all 8 real avatar portraits (swipe-carousel redesign proposed then permanently dropped).
+- Layer 4 — Avatar Walkthrough: 3 stub-screen stops (Sticky Note Ministries, Worship Center, closing beat → Home), locked in-character narration per avatar, text-only (Piper TTS deferred, see ledger).
+
+**✅ Locked, ❌ not built yet (spec finished, no code exists):**
+- Sync architecture (bank/wallet model, WordForge grocery-list pattern)
+- Content doctrine boundary (7-source approved list, Category A/B classifier)
+- Follower Mode 30-day Bible plan
+- Growth-detection instrumentation (mechanism-only, thresholds deferred on purpose)
+- Stones of Remembrance
+- 13-category Psalms/Proverbs content library (structure locked, verse data not loaded)
+- "Ask Further" share-sheet handoff (supersedes the old in-app Mode 2 AI chat vision)
+- Sticky Notes Path A (in-app corkboard) + Path B (WhatsApp export)
+- Local church integration: physical-church small groups + distant-ministry anonymous email outreach
+
+**🔄 Locked, actively being built now (re-sequenced ahead of everything above per Ricky's 2026-07-09 correction):**
+- A real (non-stub) first entry screen that captures genuine timestamped interaction data, so growth-detection thresholds get calibrated from real usage rather than invented numbers. Spec incoming from Ricky directly; standing by as of this writing.
+
+**❌ NOT locked — open design gaps, not ready to build:**
+- WordForge's bird's-eye-view of the user's walk (differentiator feature) — data model/visual form undesigned
+- Gate progressions / stronghold taxonomy (Steve Cowan's *Strongholds* is a lead, not confirmed as the answer)
+- Settings screen (only rewatch-intro + avatar-switching confirmed so far)
+- Avatar-to-mode mapping (independent vs. mode-linked subset)
+- Three sync sub-questions: cloud retention, church-selection UX, push timing
+- Ask Further's "rough summary" step: pure template vs. small AI-assist
+- Church contact-email sourcing/verification method, and outreach threshold
+
+**⏸️ Confirmed real, deliberately parked (sequencing, not doubt):**
+- Shepherd Mode + bundled local-church admin side — last major build
+- Caregiver Mode, Abide Mode — after Follower Mode ships and is approved on-device
+- Sharing architecture, Firebase schema, monetization, MetaMode
+
+**Screens/features literally untouched in code:** Sanctuary, Meditation Room, real Worship Center/Sticky Note Ministries (currently stubs), My Walk, Settings, the porch-to-house transition into a real Home shell.
 
 ## App Size & Data Cost Ledger
 
