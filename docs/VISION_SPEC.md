@@ -61,7 +61,7 @@ Sharing architecture (user sharing WordForge data with pastor/mentor/family), Fi
 - Follower Mode 30-day Bible plan
 - Growth-detection instrumentation (mechanism-only, thresholds deferred on purpose)
 - Stones of Remembrance
-- 13-category Psalms/Proverbs content library (structure locked, verse data not loaded)
+- 12-category Psalms/Proverbs content library (structure locked, verse data not loaded; whether it stays fixed at 12 or grows toward more categories is still open — don't assume either)
 - "Ask Further" share-sheet handoff (supersedes the old in-app Mode 2 AI chat vision)
 - Sticky Notes Path A (in-app corkboard) + Path B (WhatsApp export)
 - Local church integration: physical-church small groups + distant-ministry anonymous email outreach
