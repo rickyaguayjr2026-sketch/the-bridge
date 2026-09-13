@@ -95,6 +95,7 @@ Purpose: track what each feature actually costs — in bundled APK size, and sep
 | Feature | Est. size add | Status |
 |---|---|---|
 | 8 avatar portraits (already wired) | 2.6MB confirmed (`du -sh` on the actual files) | Built |
+| 6 Armor of God plates (Sanctuary) | 2.6MB confirmed (actual committed files); ~3.7MB once the two soft pieces are re-rendered at full resolution, ~4.3MB with the closing composite | Built — art wired in 2026-09-06; composite still missing, licensing unresolved (see ASSETS.md) |
 | Piper TTS (2 voices + runtime) | ~150-180MB estimated, unverified | Deferred — fast-follow after Layer 4 |
 
 **Data-cost, not size-cost (online-only features, don't touch offline core):**
